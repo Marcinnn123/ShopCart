@@ -5,8 +5,16 @@ import { CartItem } from './cartItem';
 import "./cart.css"
 
 export const Cart = () => {
-    const {cartItems, getTotalCartAmount} = useContext(ShopContext);
+    const {cartItems, getTotalCartAmount, deleteAllItems} = useContext(ShopContext);
     const totalAmount = getTotalCartAmount();
+    let isAllZero = true;
+     
+    for(let i = 0; i < PRODUCTS.length+1; ++i) {
+      if(cartItems[i] !== 0) {
+        isAllZero = false;
+        break;
+      };
+    };
 
     return (
       <div className='cart'>
@@ -21,8 +29,10 @@ export const Cart = () => {
               })}
           </div>
           <div className="checkout">
+            {isAllZero ? <h1>Cart Is Empty</h1> : <button className='deleteAll' onClick={deleteAllItems}>Delete All</button>}
             <p>Subtotal: ${totalAmount}</p>
           </div>
+          
       </div>
     )
 }
